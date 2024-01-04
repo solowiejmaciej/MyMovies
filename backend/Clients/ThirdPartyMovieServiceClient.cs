@@ -31,6 +31,7 @@ public class ThirdPartyMovieServiceClient : IThirdPartyMovieServiceClient
         var options = new RestClientOptions(_options.Value.BaseUrl)
         {
             MaxTimeout = -1,
+            
         };
         var client = new RestClient(options);
         var request = new RestRequest("/MyMovies", Method.Get);
