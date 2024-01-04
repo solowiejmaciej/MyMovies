@@ -18,7 +18,6 @@ builder.Logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogL
 
 var app = builder.Build();
 
-
 app.UseSwagger();
 app.UseSwaggerUI();
 

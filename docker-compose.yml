@@ -1,0 +1,28 @@
+﻿version: '3.8'
+services:
+  mymovies:
+    image: mymovies
+    ports:
+      - "8080:80"
+    build:
+      context: .
+      dockerfile: MyMovies/Dockerfile
+    depends_on:
+      - sqlServer
+    networks:
+      - backend
+  sqlServer:
+    container_name: sqlServer
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      SA_PASSWORD: "Database2023!"
+      ACCEPT_EULA: "Y"
+      MSSQL_DB: "MyMovies"
+    ports:
+      - "1433:1433"
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
