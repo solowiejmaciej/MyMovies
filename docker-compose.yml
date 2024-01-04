@@ -17,7 +17,7 @@ services:
     environment:
       SA_PASSWORD: "Database2023!"
       ACCEPT_EULA: "Y"
-      MSSQL_DB: "MyMovies"
+      MSSQL_DB: "MoviesDb"
     ports:
       - "1433:1433"
     networks:
