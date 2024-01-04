@@ -2,6 +2,7 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using MyMovies.Dtos;
+using MyMovies.Entities;
 using MyMovies.Interfaces;
 
 namespace MyMovies.Handlers;

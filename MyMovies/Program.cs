@@ -12,6 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddGeneralServiceCollection(configuration);
 builder.Services.AddValidationServiceCollectionExtension();
+builder.Services.AddThirdPartyMoviesServiceCollectionExtension(configuration);
 
 builder.Logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Warning);
 

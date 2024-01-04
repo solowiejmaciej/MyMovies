@@ -1,5 +1,6 @@
 using FluentValidation;
 using MediatR;
+using MyMovies.Entities;
 using MyMovies.Interfaces;
 
 namespace MyMovies.Handlers;

@@ -1,6 +1,7 @@
 using AutoMapper;
 using MediatR;
 using MyMovies.Dtos;
+using MyMovies.Entities;
 using MyMovies.Interfaces;
 
 namespace MyMovies.Handlers;

@@ -1,11 +1,10 @@
-namespace MyMovies.Dtos;
+namespace MyMovies.Models.ThirdParty;
 
-public class MovieDto
+public class ExternalMovie
 {
-    public int Id { get; set; }
     public string Title { get; set; }
     public string Director { get; set; }
     public int Year { get; set; }
     public double Rate { get; set; }
-    public int ThirdPartyId { get; set; }
+    public int ExternalId { get; set; }
 }
