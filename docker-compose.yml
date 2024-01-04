@@ -6,7 +6,7 @@ services:
       - "8080:80"
     build:
       context: .
-      dockerfile: MyMovies/Dockerfile
+      dockerfile: backend/Dockerfile
     depends_on:
       - sqlServer
     networks:
