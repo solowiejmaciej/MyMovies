@@ -37,19 +37,18 @@ public record UpdateMovieCommand : IRequest<MovieDto>
 {
     public int Id { get; set; }
     public required string Title { get; set; }
-    public required string Director { get; set; }
+    public required string? Director { get; set; }
     public required int Year { get; set; }
-    public required double Rate { get; set; }
+    public required double? Rate { get; set; }
 }
 
 public class UpdateMovieCommandValidator : AbstractValidator<UpdateMovieCommand>
 {
     public UpdateMovieCommandValidator()
     {
-        RuleFor(x => x.Id).NotEmpty();
-        RuleFor(x => x.Title).NotEmpty();
-        RuleFor(x => x.Director).NotEmpty();
-        RuleFor(x => x.Year).NotEmpty();
-        RuleFor(x => x.Rate).NotEmpty();
+        RuleFor(x => x.Title).NotEmpty()
+            .MaximumLength(200);
+        RuleFor(x => x.Year).NotEmpty()
+            .InclusiveBetween(1900, 2200);
     }
 }

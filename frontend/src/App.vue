@@ -1,50 +1,63 @@
-<template>
-  <div>
-    <button @click="addMovie">Dodaj</button>
-    <table>
-      <tr v-for="(movie, index) in movies" :key="index">
-        <td>{{ movie.title }}</td>
-        <td><button @click="editMovie(index)">Edytuj</button></td>
-        <td><button @click="deleteMovie(index)">Usuń</button></td>
-      </tr>
-    </table>
-  </div>
-</template>
-
 <script>
+import MovieTable from './components/MovieTable.vue'
+import NavBar from './components/NavBar.vue'
+import AddNewMovieButton from './components/Buttons/AddNewMovieButton.vue';
+import DownloadMoviesButton from './components/Buttons/DownloadMoviesButton.vue';
+import ApiError from './components/ErrorMessages/ApiError.vue';
 import axios from 'axios';
+import {BASE_URL} from './const/apiConfig';
+
 
 export default {
   data() {
     return {
-      movies: [] // Tutaj będą przechowywane dane o filmach
+      movies: [],
+      hasError: false
+    }
+  },
+  components: {
+    MovieTable,
+    NavBar,
+    AddNewMovieButton,
+    DownloadMoviesButton,
+    ApiError
+  },
+  methods: {
+    moviesChanged() {
+      console.log("moviesChanged");
+      axios.get(`${BASE_URL}/movies`)
+        .then(response => {
+          this.movies = response.data
+        })
+        .catch(error => {
+          console.error(error)
+        });
+    },
+    somethingWentWrong() {
+      console.log("somethingWentWrong");
+      this.hasError = true
+    },
+    turnOffSomethingWentWrong() {
+      console.log("turnOffSomethingWentWrong");
+      this.hasError = false
+    },
+    validationError() {
+      console.log("validationError");
     }
   },
   created() {
-    axios.get('http://localhost:8080/api/movies')
-      .then(response => {
-        this.movies = response.data;
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    this.moviesChanged();
   },
-  methods: {
-    addMovie() {
-      // Tutaj powinna być logika dodawania filmu
-    },
-    editMovie(index) {
-      // Tutaj powinna być logika edycji filmu
-    },
-    deleteMovie(index) {
-      if (confirm('Czy na pewno chcesz usunąć ten film?')) {
-        this.movies.splice(index, 1);
-      }
-    }
-  }
 }
 </script>
 
-<style scoped>
+<template>
+  <NavBar />
+  <div class="d-flex justify-content-center">
+    <AddNewMovieButton @moviesChanged="moviesChanged" @somethingWentWrong="somethingWentWrong"/>
+    <ApiError v-if="hasError" @turnOffSomethingWentWrong="turnOffSomethingWentWrong"/>
+    <DownloadMoviesButton @moviesChanged="moviesChanged" @somethingWentWrong="somethingWentWrong" />
+  </div>
+  <MovieTable :movies="movies" @moviesChanged="moviesChanged" @somethingWentWrong="somethingWentWrong"/>
+</template>
 
-</style>

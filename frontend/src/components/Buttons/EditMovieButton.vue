@@ -1,0 +1,54 @@
+<template>
+  <button @click="openEditMovieModal" class="btn btn-primary">Edit</button>
+  <div v-if="showModal">
+    <EditMovieModal @disableModal="disableModal" :movieId="movieId" :title="title" :director="director" :rate="rate" :year="year" @moviesChanged="moviesChanged" @somethingWentWrong="somethingWentWrong" />
+  </div>
+</template>
+
+<script>
+import EditMovieModal from '../Modals/EditMovieModal.vue';
+export default {
+  data() {
+    return {
+      showModal: false
+    }
+  },
+  emits: ['moviesChanged', 'somethingWentWrong'],
+  components: {
+    EditMovieModal
+  },
+  props: {
+    movieId: {
+      required: true
+    },
+    title: {
+      required: true
+    },
+    director: {
+      required: true
+    },
+    year: {
+      required: true
+    },
+    rate: {
+      required: true
+    }
+
+  },
+  methods: {
+    openEditMovieModal() {
+      this.showModal = true;
+    },
+    disableModal() {
+      this.showModal = false;
+    },
+    moviesChanged() {
+      this.$emit('moviesChanged');
+    },
+    somethingWentWrong() {
+      console.log("Something went wrong");
+      this.$emit('somethingWentWrong');
+    }
+  }
+}
+</script>

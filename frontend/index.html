@@ -1,13 +1,27 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Add Bootstrap and Bootstrap-Vue CSS to the <head> section -->
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css"/>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + Vue</title>
+    <title>My Movies WebApp</title>
+    <style>
+      /* Dark mode styles */
+      body.dark-mode {
+        background-color: #333;
+        color: #fff;
+      }
+    </style>
   </head>
-  <body>
+  <body class="dark-mode">
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
+
+    <!-- Add Vue and BootstrapVue scripts just before the closing </body> tag -->
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
   </body>
 </html>

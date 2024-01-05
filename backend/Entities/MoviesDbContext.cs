@@ -9,7 +9,6 @@ public sealed class MoviesDbContext : DbContext
     {
     }
 
-
     public DbSet<Movie?> Movies { get; set; }
 
 }

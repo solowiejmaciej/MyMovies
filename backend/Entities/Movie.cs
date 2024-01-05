@@ -8,7 +8,7 @@ public class Movie
     public int Id { get; set; }
     public int? ThirdPartyId { get; set; }
     public string Title { get; set; }
-    public string Director { get; set; }
+    public string? Director { get; set; }
     public int Year { get; set; }
-    public double Rate { get; set; }
+    public double? Rate { get; set; }
 }
