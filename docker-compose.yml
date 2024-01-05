@@ -1,12 +1,13 @@
 ﻿version: '3.8'
 services:
   mymovies-api:
+    container_name: mymovies-api
     image: mymovies
     ports:
       - "8080:80"
     build:
-      context: .
-      dockerfile: backend/Dockerfile
+      context: ./backend
+      dockerfile: Dockerfile
     depends_on:
       - sqlServer
     networks:
@@ -23,12 +24,13 @@ services:
     networks:
       - backend
   mymovies-web:
+    container_name: mymovies-web
     image: movies-frontend
     ports:
       - "8081:8080"
     build:
-      context: .
-      dockerfile: frontend/Dockerfile
+      context: ./frontend
+      dockerfile: Dockerfile
     networks:
       - backend
 
