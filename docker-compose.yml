@@ -6,8 +6,8 @@ services:
     ports:
       - "8080:80"
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: backend/Dockerfile
     depends_on:
       - sqlServer
     networks:
