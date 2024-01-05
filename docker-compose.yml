@@ -1,6 +1,6 @@
 ﻿version: '3.8'
 services:
-  mymovies:
+  mymovies-api:
     image: mymovies
     ports:
       - "8080:80"
@@ -20,6 +20,15 @@ services:
       MSSQL_DB: "MoviesDb"
     ports:
       - "1433:1433"
+    networks:
+      - backend
+  mymovies-web:
+    image: movies-frontend
+    ports:
+      - "8081:8080"
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
     networks:
       - backend
 

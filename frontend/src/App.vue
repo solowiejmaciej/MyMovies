@@ -21,7 +21,7 @@ export default {
     }
   },
   created() {
-    axios.get('http://localhost:5120/api/movies')
+    axios.get('http://localhost:8080/api/movies')
       .then(response => {
         this.movies = response.data;
       })
