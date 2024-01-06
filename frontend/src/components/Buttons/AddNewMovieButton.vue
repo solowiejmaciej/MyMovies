@@ -3,36 +3,41 @@
     <button class="btn btn-primary m-3" @click="showMovieModal">Add new movie</button>
   </div>
   <div v-if="showModal">
-    <AddNewMovieModal @toggleModal="toggleModal" @moviesChanged="handleMoviesChanged" @somethingWentWrong="somethingWentWrong"/>
+    <Modal
+        @disableModal="disableModal"
+        @moviesChanged="handleMoviesChanged"
+        @somethingWentWrong="somethingWentWrong"
+        :mode="'add'"
+    />
   </div>
 </template>
 
 <script>
-import AddNewMovieModal from '../Modals/AddNewMovieModal.vue';
+import Modal from '../Modals/Modal.vue';
 
 export default {
-    data() {
-        return {
-            showModal: false
-        }
+  data() {
+    return {
+      showModal: false
+    }
+  },
+  emits: ['moviesChanged' , 'somethingWentWrong'],
+  components: {
+    Modal
+  },
+  methods: {
+    showMovieModal() {
+      this.showModal = true;
     },
-    emits: ['moviesChanged' , 'somethingWentWrong'],
-    components: {
-        AddNewMovieModal
+    disableModal() {
+      this.showModal = false;
     },
-    methods: {
-        showMovieModal() {
-            this.showModal = true;
-        },
-        toggleModal() {
-            this.showModal = false;
-        },
-        handleMoviesChanged() {
-            this.$emit('moviesChanged');
-        },
-  somethingWentWrong() {
-            this.$emit('somethingWentWrong');
-        }
+    handleMoviesChanged() {
+      this.$emit('moviesChanged');
     },
+    somethingWentWrong() {
+      this.$emit('somethingWentWrong');
+    }
+  },
 }
 </script>

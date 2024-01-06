@@ -9,7 +9,7 @@
       <div v-if="v$.localYear.$error" class="error">Year must be between 1900 and 2200.</div>
       <input type="text" class="form-control" placeholder="Rate" v-model="localRate">
       <br>
-      <button class="btn btn-primary" @click="editMovie" >Save</button>
+      <button class="btn btn-primary" @click="saveMovie" >{{ mode === 'edit' ? 'Save' : 'Add' }}</button>
     </div>
   </div>
 </template>
@@ -20,45 +20,48 @@ import { required, maxLength, between } from '@vuelidate/validators'
 import axios from 'axios';
 import { BASE_URL } from '../../const/apiConfig';
 
-
 export default {
   setup () {
     return { v$: useVuelidate() }
   },
   emits: ['disableModal', 'moviesChanged', 'somethingWentWrong'],
+  props: {
+    movieId: {
+      required: false
+    },
+    title: {
+      required: false
+    },
+    director: {
+      required: false
+    },
+    year: {
+      required: false
+    },
+    rate: {
+      required: false
+    },
+    mode: {
+      type: String,
+      required: true
+    }
+  },
+  data() {
+    return {
+      localTitle: this.title || '',
+      localDirector: this.director || '',
+      localYear: this.year || '',
+      localRate: this.rate || ''
+    }
+  },
   validations() {
     return {
       localTitle: { required, maxLength: maxLength(200) },
       localYear: { required, between: between(1900, 2200) }
     }
   },
-  props: {
-    movieId: {
-      required: true
-    },
-    title: {
-      required: true
-    },
-    director: {
-      required: true
-    },
-    year: {
-      required: true
-    },
-    rate: {
-      required: true
-    }
-  },
-  data() {
-    return {
-      localTitle: this.title,
-      localDirector: this.director,
-      localYear: this.year,
-      localRate: this.rate
-    }
-  },
   methods: {
-    editMovie() {
+    async saveMovie() {
       this.v$.$validate()
       if (!this.v$.$error) {
         const movieData = {
@@ -74,14 +77,15 @@ export default {
           movieData.rate = this.localRate;
         }
 
-        axios.put(`${BASE_URL}/movies/` + this.movieId, movieData)
-            .then(response => {
-              this.$emit('moviesChanged')
-              this.disableModal();
-            })
-            .catch(error => {
-              this.$emit('somethingWentWrong')
-            })
+        try {
+          const url = this.mode === 'edit' ? `${BASE_URL}/movies/${this.movieId}` : `${BASE_URL}/movies`;
+          const method = this.mode === 'edit' ? 'put' : 'post';
+          await axios({ method, url, data: movieData });
+          this.$emit('moviesChanged');
+          this.disableModal();
+        } catch (error) {
+          this.$emit('somethingWentWrong');
+        }
       }
     },
     disableModal() {

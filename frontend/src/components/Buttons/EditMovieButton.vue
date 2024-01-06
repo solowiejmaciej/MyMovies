@@ -1,12 +1,22 @@
 <template>
   <button @click="openEditMovieModal" class="btn btn-primary">Edit</button>
   <div v-if="showModal">
-    <EditMovieModal @disableModal="disableModal" :movieId="movieId" :title="title" :director="director" :rate="rate" :year="year" @moviesChanged="moviesChanged" @somethingWentWrong="somethingWentWrong" />
+    <Modal
+        @disableModal="disableModal"
+        :movieId="movieId"
+        :title="title"
+        :director="director"
+        :rate="rate"
+        :year="year"
+        @moviesChanged="moviesChanged"
+        @somethingWentWrong="somethingWentWrong"
+        :mode="'edit'"
+    />
   </div>
 </template>
 
 <script>
-import EditMovieModal from '../Modals/EditMovieModal.vue';
+import Modal from '../Modals/Modal.vue';
 export default {
   data() {
     return {
@@ -15,7 +25,7 @@ export default {
   },
   emits: ['moviesChanged', 'somethingWentWrong'],
   components: {
-    EditMovieModal
+    Modal
   },
   props: {
     movieId: {
