@@ -12,7 +12,7 @@ export default {
   emits: ['moviesChanged', 'somethingWentWrong'],
   methods: {
     downloadMovies() {
-      axios.get(`${BASE_URL}/third-party-movies`)
+      axios.post(`${BASE_URL}/third-party-movies`)
           .then(response => {
             if (response.status !== 200){
               this.$emit('somethingWentWrong')

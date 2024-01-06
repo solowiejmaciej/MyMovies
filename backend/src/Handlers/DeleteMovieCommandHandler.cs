@@ -1,6 +1,7 @@
 using FluentValidation;
 using MediatR;
 using MyMovies.Entities;
+using MyMovies.Exceptions;
 using MyMovies.Interfaces;
 
 namespace MyMovies.Handlers;
@@ -17,6 +18,10 @@ public class DeleteMovieCommandHandler : IRequestHandler<DeleteMovieCommand>
     public async Task Handle(DeleteMovieCommand request, CancellationToken cancellationToken)
     {
         var movie = await _movieRepository.GetMovieByIdAsync(request.MovieId);
+        if (movie is null)
+        {
+            throw new MovieNotFoundException(request.MovieId);
+        }
         await _movieRepository.DeleteMovieByIdAsync(movie);
     }
 }

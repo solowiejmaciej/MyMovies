@@ -32,7 +32,7 @@ public class MoviesRepository : IMoviesRepository
 
     public async Task<Movie?> GetMovieByIdAsync(int id)
     {
-        return await _moviesDbContext.Movies.FirstOrDefaultAsync(movie => movie.Id == id) ?? throw new MovieNotFoundException(id);
+        return await _moviesDbContext.Movies.FirstOrDefaultAsync(movie => movie.Id == id);
     }
 
     public async Task<IEnumerable<Movie?>> GetMoviesAsync()

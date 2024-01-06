@@ -3,6 +3,7 @@ using FluentValidation;
 using MediatR;
 using MyMovies.Dtos;
 using MyMovies.Entities;
+using MyMovies.Exceptions;
 using MyMovies.Interfaces;
 
 namespace MyMovies.Handlers;
@@ -21,6 +22,10 @@ public class GetMovieByIdQueryHandler : IRequestHandler<GetMovieByIdQuery, Movie
     public async Task<MovieDto> Handle(GetMovieByIdQuery request, CancellationToken cancellationToken)
     {
         var movie = await _movieRepository.GetMovieByIdAsync(request.MovieId);
+        if (movie is null)
+        {
+            throw new MovieNotFoundException(request.MovieId);
+        }
         return _mapper.Map<MovieDto>(movie);
     }
 }

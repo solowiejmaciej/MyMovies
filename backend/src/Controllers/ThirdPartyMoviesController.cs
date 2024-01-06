@@ -24,7 +24,7 @@ public class ThirdPartyMoviesController : ControllerBase
     /// </summary>
     /// <returns>A task that represents the asynchronous operation. The task result contains the ActionResult.</returns>
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [HttpGet(Name = "GetThirdPartyMovies")]
+    [HttpPost(Name = "ThirdPartyMovies")]
     public async Task<ActionResult> GetAll()
     {
         var result  = await _mediator.Send(new GetThirdPartyMoviesQuery());

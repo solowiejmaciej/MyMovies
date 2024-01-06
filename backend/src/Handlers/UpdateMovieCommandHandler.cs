@@ -3,6 +3,7 @@ using FluentValidation;
 using MediatR;
 using MyMovies.Dtos;
 using MyMovies.Entities;
+using MyMovies.Exceptions;
 using MyMovies.Interfaces;
 using MyMovies.Models.RequestsBody;
 
@@ -24,6 +25,10 @@ public class UpdateMovieCommandHandler : IRequestHandler<UpdateMovieCommand, Mov
     public async Task<MovieDto> Handle(UpdateMovieCommand request, CancellationToken cancellationToken)
     {
         var movie = await _moviesRepository.GetMovieByIdAsync(request.Id);
+        if (movie is null)
+        {
+            throw new MovieNotFoundException(request.Id);
+        }
         movie.Title = request.Title;
         movie.Director = request.Director;
         movie.Year = request.Year;
@@ -37,9 +42,9 @@ public record UpdateMovieCommand : IRequest<MovieDto>
 {
     public int Id { get; set; }
     public required string Title { get; set; }
-    public required string? Director { get; set; }
+    public string? Director { get; set; }
     public required int Year { get; set; }
-    public required double? Rate { get; set; }
+    public double? Rate { get; set; }
 }
 
 public class UpdateMovieCommandValidator : AbstractValidator<UpdateMovieCommand>
