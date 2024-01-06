@@ -1,12 +1,11 @@
-using System.ComponentModel.DataAnnotations;
-using Xunit;
-using Moq;
-using System.Threading;
 using AutoMapper;
+using Moq;
+using MyMovies.Dtos;
+using MyMovies.Entities;
 using MyMovies.Handlers;
 using MyMovies.Interfaces;
-using MyMovies.Entities;
-using MyMovies.Dtos;
+
+namespace MyMovies.Tests.Handlers;
 
 public class AddMovieCommandHandlerTests
 {

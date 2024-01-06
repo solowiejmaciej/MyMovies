@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B970EDC7-396
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{EA2F20A4-2660-4110-AFD9-862AEB521969}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyMovies.Tests", "MyMovies.Tests\MyMovies.Tests.csproj", "{6A704D87-1DAE-4C56-A0CD-75F50FF433D1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyMovies.Tests", "backend\tests\MyMovies.Tests\MyMovies.Tests.csproj", "{6A704D87-1DAE-4C56-A0CD-75F50FF433D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

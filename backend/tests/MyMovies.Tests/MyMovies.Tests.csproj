@@ -21,9 +21,9 @@
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
     </ItemGroup>
-
+    
     <ItemGroup>
-      <ProjectReference Include="..\backend\src\MyMovies.csproj" />
+      <ProjectReference Include="..\..\src\MyMovies.csproj" />
     </ItemGroup>
-
+    
 </Project>
