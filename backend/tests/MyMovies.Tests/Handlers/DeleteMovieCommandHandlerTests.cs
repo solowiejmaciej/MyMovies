@@ -23,11 +23,11 @@ public class DeleteMovieCommandHandlerTests
         var command = new DeleteMovieCommand(1);
         var movie = new Movie { Id = 1, Title = "Test Movie", Year = 2022 };
 
-        _mockMoviesRepository.Setup(r => r.GetMovieByIdAsync(command.MovieId)).ReturnsAsync(movie);
+        _mockMoviesRepository.Setup(r => r.GetMovieByIdAsync(command.MovieId, CancellationToken.None)).ReturnsAsync(movie);
 
         await _handler.Handle(command, CancellationToken.None);
 
-        _mockMoviesRepository.Verify(r => r.DeleteMovieByIdAsync(movie), Times.Once);
+        _mockMoviesRepository.Verify(r => r.DeleteMovieByIdAsync(movie, CancellationToken.None), Times.Once);
     }
 
     [Fact]
@@ -35,7 +35,7 @@ public class DeleteMovieCommandHandlerTests
     {
         var command = new DeleteMovieCommand(1);
 
-        _mockMoviesRepository.Setup(r => r.GetMovieByIdAsync(command.MovieId)).ReturnsAsync((Movie)null);
+        _mockMoviesRepository.Setup(r => r.GetMovieByIdAsync(command.MovieId, CancellationToken.None)).ReturnsAsync((Movie)null);
 
         await Assert.ThrowsAsync<MovieNotFoundException>(() => _handler.Handle(command, CancellationToken.None));
     }

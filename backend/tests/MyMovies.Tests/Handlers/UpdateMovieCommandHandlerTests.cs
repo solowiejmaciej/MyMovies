@@ -30,8 +30,8 @@ public class UpdateMovieCommandHandlerTests
         var updatedMovie = new Movie { Id = 1, Title = "Updated Movie", Year = 2022 };
         var updatedMovieDto = new MovieDto { Id = 1, Title = "Updated Movie", Year = 2022 };
 
-        _mockMoviesRepository.Setup(r => r.GetMovieByIdAsync(command.Id)).ReturnsAsync(movie);
-        _mockMoviesRepository.Setup(r => r.UpdateMovieAsync(It.Is<Movie>(m => m.Title == command.Title && m.Year == command.Year))).ReturnsAsync(updatedMovie);
+        _mockMoviesRepository.Setup(r => r.GetMovieByIdAsync(command.Id,CancellationToken.None)).ReturnsAsync(movie);
+        _mockMoviesRepository.Setup(r => r.UpdateMovieAsync(It.Is<Movie>(m => m.Title == command.Title && m.Year == command.Year),CancellationToken.None)).ReturnsAsync(updatedMovie);
 
         var result = await _handler.Handle(command, CancellationToken.None);
 
@@ -44,7 +44,7 @@ public class UpdateMovieCommandHandlerTests
     {
         var command = new UpdateMovieCommand { Id = 1, Title = "Updated Movie", Year = 2022 };
 
-        _mockMoviesRepository.Setup(r => r.GetMovieByIdAsync(command.Id)).ReturnsAsync((Movie)null);
+        _mockMoviesRepository.Setup(r => r.GetMovieByIdAsync(command.Id,CancellationToken.None)).ReturnsAsync((Movie)null);
 
         await Assert.ThrowsAsync<MovieNotFoundException>(() => _handler.Handle(command, CancellationToken.None));
     }

@@ -25,7 +25,7 @@ public class GetMoviesQueryHandlerTests
         var movies = new List<Movie> { new Movie { Id = 1, Title = "Test Movie", Year = 2022 } };
         var moviesDto = new List<MovieDto> { new MovieDto { Id = 1, Title = "Test Movie", Year = 2022 } };
 
-        _mockMoviesRepository.Setup(r => r.GetMoviesAsync()).ReturnsAsync(movies);
+        _mockMoviesRepository.Setup(r => r.GetMoviesAsync(CancellationToken.None)).ReturnsAsync(movies);
         _mockMapper.Setup(m => m.Map<IEnumerable<MovieDto>>(movies)).Returns(moviesDto);
 
         var result = await _handler.Handle(query, CancellationToken.None);
@@ -40,7 +40,7 @@ public class GetMoviesQueryHandlerTests
         var movies = new List<Movie>();
         var moviesDto = new List<MovieDto>();
 
-        _mockMoviesRepository.Setup(r => r.GetMoviesAsync()).ReturnsAsync(movies);
+        _mockMoviesRepository.Setup(r => r.GetMoviesAsync(CancellationToken.None)).ReturnsAsync(movies);
         _mockMapper.Setup(m => m.Map<IEnumerable<MovieDto>>(movies)).Returns(moviesDto);
 
         var result = await _handler.Handle(query, CancellationToken.None);

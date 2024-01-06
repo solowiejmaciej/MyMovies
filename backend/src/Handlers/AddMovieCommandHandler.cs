@@ -23,7 +23,7 @@ public class AddMovieCommandHandler : IRequestHandler<AddMovieCommand, MovieDto>
     public async Task<MovieDto> Handle(AddMovieCommand request, CancellationToken cancellationToken)
     {
         var movie = _mapper.Map<Movie>(request);
-        await _moviesRepository.AddMovieAsync(movie);
+        await _moviesRepository.AddMovieAsync(movie, cancellationToken);
         return _mapper.Map<MovieDto>(movie);
     }
 }

@@ -24,7 +24,6 @@ export default {
   },
   methods: {
     moviesChanged() {
-      console.log("moviesChanged");
       axios.get(`${BASE_URL}/movies`)
         .then(response => {
           this.movies = response.data
@@ -34,15 +33,10 @@ export default {
         });
     },
     somethingWentWrong() {
-      console.log("somethingWentWrong");
       this.hasError = true
     },
     turnOffSomethingWentWrong() {
-      console.log("turnOffSomethingWentWrong");
       this.hasError = false
-    },
-    validationError() {
-      console.log("validationError");
     }
   },
   created() {

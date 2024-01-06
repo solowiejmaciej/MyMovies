@@ -58,7 +58,7 @@ export default {
 
 <style scoped>
 .table-container {
-  width: 40%;  /* Adjust this value as needed */
+  width: 40%;
   margin: auto;
 }
 </style>

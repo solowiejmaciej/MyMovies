@@ -16,12 +16,19 @@ public class MovieService : IMovieService
         _moviesRepository = moviesRepository;
         _logger = logger;
     }
-    public async Task AddMissingMoviesAsync(IEnumerable<Movie> movies)
+    
+    /// <summary>
+    /// Adds missing movies to the database from the list of movies provided
+    /// </summary>
+    /// <param name="movies"> List of potential missing movies from db</param>
+    /// <param name="cancellationToken"> CancellationToken token to stop async operation </param>
+    public async Task AddMissingMoviesAsync(IEnumerable<Movie> movies , CancellationToken cancellationToken)
     {
-        var existingMovies = await _moviesRepository.GetMoviesAsync();
+        var existingMovies = await _moviesRepository.GetMoviesAsync(cancellationToken);
         var missingMovies = movies.Where(movie => !existingMovies.Any(existingMovie => existingMovie.Title == movie.Title && existingMovie.Director == movie.Director && existingMovie.Year == movie.Year));
-        _logger.LogInformation($"Found {missingMovies.Count()} missing movies");
-        foreach (var missingMovie in missingMovies)
+        var enumerable = missingMovies.ToList();
+        _logger.LogInformation($"Found {enumerable.Count()} missing movies");
+        foreach (var missingMovie in enumerable)
         {
             var movie = new Movie()
             {
@@ -31,7 +38,7 @@ public class MovieService : IMovieService
                 Rate = missingMovie.Rate,
                 ThirdPartyId = missingMovie.Id
             };
-            await _moviesRepository.AddMovieAsync(movie);
+            await _moviesRepository.AddMovieAsync(movie, cancellationToken);
         }
     }
 }

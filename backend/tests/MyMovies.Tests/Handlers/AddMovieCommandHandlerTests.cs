@@ -35,7 +35,7 @@ public class AddMovieCommandHandlerTests
         var result = await _handler.Handle(command, CancellationToken.None);
 
         // Assert
-        _mockMoviesRepository.Verify(r => r.AddMovieAsync(movie), Times.Once);
+        _mockMoviesRepository.Verify(r => r.AddMovieAsync(movie, CancellationToken.None), Times.Once);
         Assert.Equal(movieDto, result);
     }
     

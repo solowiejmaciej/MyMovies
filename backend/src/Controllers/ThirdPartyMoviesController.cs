@@ -27,7 +27,7 @@ public class ThirdPartyMoviesController : ControllerBase
     [HttpPost(Name = "ThirdPartyMovies")]
     public async Task<ActionResult> GetAll()
     {
-        var result  = await _mediator.Send(new GetThirdPartyMoviesQuery());
+        var result  = await _mediator.Send(new GetThirdPartyMoviesCommand());
         return Ok(result);
     }
     

@@ -9,28 +9,28 @@ using System.Collections.Generic;
 using MyMovies.Dtos;
 using MyMovies.MappingProfiles;
 
-public class GetThirdPartyMoviesQueryHandlerTests
+public class GetThirdPartyMoviesCommandHandlerTests
 {
     private readonly Mock<IThirdPartyMovieServiceClient> _mockThirdPartyMovieServiceClient;
     private readonly Mock<IMovieService> _mockMovieService;
-    private readonly GetThirdPartyMoviesQueryHandler _handler;
+    private readonly GetThirdPartyMoviesCommandHandler _handler;
 
-    public GetThirdPartyMoviesQueryHandlerTests()
+    public GetThirdPartyMoviesCommandHandlerTests()
     {
         _mockThirdPartyMovieServiceClient = new Mock<IThirdPartyMovieServiceClient>();
         _mockMovieService = new Mock<IMovieService>();
         var config = new MapperConfiguration(cfg => cfg.AddProfile<MovieMappingProfile>());
         var mapper = config.CreateMapper();
-        _handler = new GetThirdPartyMoviesQueryHandler(_mockThirdPartyMovieServiceClient.Object, _mockMovieService.Object, mapper);
+        _handler = new GetThirdPartyMoviesCommandHandler(_mockThirdPartyMovieServiceClient.Object, _mockMovieService.Object, mapper);
     }
 
     [Fact]
     public async Task Handle_ShouldReturnMovies_WhenMoviesExist()
     {
-        var query = new GetThirdPartyMoviesQuery();
+        var query = new GetThirdPartyMoviesCommand();
         var moviesDtos = new List<MovieDto> { new MovieDto { Id = 1, Title = "Test Movie", Year = 2022 } };
 
-        _mockThirdPartyMovieServiceClient.Setup(c => c.GetMoviesAsync()).ReturnsAsync(moviesDtos);
+        _mockThirdPartyMovieServiceClient.Setup(c => c.GetMoviesAsync(CancellationToken.None)).ReturnsAsync(moviesDtos);
 
         var result = await _handler.Handle(query, CancellationToken.None);
 
@@ -40,15 +40,15 @@ public class GetThirdPartyMoviesQueryHandlerTests
     [Fact]
     public async Task Handle_ShouldReturnEmpty_WhenNoMoviesExist()
     {
-        var query = new GetThirdPartyMoviesQuery();
+        var query = new GetThirdPartyMoviesCommand();
         var movies = new List<Movie>();
         var moviesDtos = new List<MovieDto>();
 
-        _mockThirdPartyMovieServiceClient.Setup(c => c.GetMoviesAsync()).ReturnsAsync(moviesDtos);
+        _mockThirdPartyMovieServiceClient.Setup(c => c.GetMoviesAsync(CancellationToken.None)).ReturnsAsync(moviesDtos);
 
         var result = await _handler.Handle(query, CancellationToken.None);
 
-        _mockMovieService.Verify(s => s.AddMissingMoviesAsync(movies), Times.Once);
+        _mockMovieService.Verify(s => s.AddMissingMoviesAsync(movies,CancellationToken.None), Times.Once);
         Assert.Empty(result);
     }
 }

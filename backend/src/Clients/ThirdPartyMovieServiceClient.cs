@@ -17,15 +17,19 @@ public class ThirdPartyMovieServiceClient : IThirdPartyMovieServiceClient
 
     public ThirdPartyMovieServiceClient(
         ILogger<ThirdPartyMovieServiceClient> logger,
-        IOptions<ThirdPartyMoviesClientOptions> options,
-        IMapper mapper
+        IOptions<ThirdPartyMoviesClientOptions> options
         )
     {
         _logger = logger;
         _options = options;
     }
-
-    public async Task<IEnumerable<MovieDto>> GetMoviesAsync()
+    
+    /// <summary>
+    ///  Retrieves all movies from the third party service, deserializes them and returns them as a list of MovieDto.
+    /// </summary>
+    /// <param name="cancellationToken"> CancellationToken token to stop async operation </param>
+    /// <returns></returns>
+    public async Task<IEnumerable<MovieDto>> GetMoviesAsync(CancellationToken cancellationToken = default)
     {
         _logger.LogInformation($"Getting movies from {_options.Value.BaseUrl}");
         var options = new RestClientOptions(_options.Value.BaseUrl)
@@ -35,7 +39,7 @@ public class ThirdPartyMovieServiceClient : IThirdPartyMovieServiceClient
         };
         var client = new RestClient(options);
         var request = new RestRequest("/MyMovies", Method.Get);
-        RestResponse response = await client.ExecuteAsync(request);
+        RestResponse response = await client.ExecuteAsync(request, cancellationToken);
         if (!response.IsSuccessful)
         {
             _logger.LogError(response.ErrorMessage);

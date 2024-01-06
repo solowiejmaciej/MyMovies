@@ -24,7 +24,7 @@ public class UpdateMovieCommandHandler : IRequestHandler<UpdateMovieCommand, Mov
     }
     public async Task<MovieDto> Handle(UpdateMovieCommand request, CancellationToken cancellationToken)
     {
-        var movie = await _moviesRepository.GetMovieByIdAsync(request.Id);
+        var movie = await _moviesRepository.GetMovieByIdAsync(request.Id, cancellationToken);
         if (movie is null)
         {
             throw new MovieNotFoundException(request.Id);
@@ -33,7 +33,7 @@ public class UpdateMovieCommandHandler : IRequestHandler<UpdateMovieCommand, Mov
         movie.Director = request.Director;
         movie.Year = request.Year;
         movie.Rate = request.Rate;
-        var updatedMovie = await _moviesRepository.UpdateMovieAsync(movie);
+        var updatedMovie = await _moviesRepository.UpdateMovieAsync(movie, cancellationToken);
         return _mapper.Map<MovieDto>(updatedMovie);
     }
 }

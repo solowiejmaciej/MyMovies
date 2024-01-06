@@ -5,13 +5,13 @@ using MyMovies.Interfaces;
 
 namespace MyMovies.Handlers;
 
-public class GetThirdPartyMoviesQueryHandler : IRequestHandler<GetThirdPartyMoviesQuery, IEnumerable<Movie>>
+public class GetThirdPartyMoviesCommandHandler : IRequestHandler<GetThirdPartyMoviesCommand, IEnumerable<Movie>>
 {
     private readonly IThirdPartyMovieServiceClient _thirdPartyMovieServiceClient;
     private readonly IMovieService _movieService;
     private readonly IMapper _mapper;
 
-    public GetThirdPartyMoviesQueryHandler(
+    public GetThirdPartyMoviesCommandHandler(
         IThirdPartyMovieServiceClient thirdPartyMovieServiceClient,
         IMovieService movieService,
         IMapper mapper
@@ -21,14 +21,14 @@ public class GetThirdPartyMoviesQueryHandler : IRequestHandler<GetThirdPartyMovi
         _movieService = movieService;
         _mapper = mapper;
     }
-    public async Task<IEnumerable<Movie>> Handle(GetThirdPartyMoviesQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<Movie>> Handle(GetThirdPartyMoviesCommand request, CancellationToken cancellationToken)
     {
-        var movies = await _thirdPartyMovieServiceClient.GetMoviesAsync();
+        var movies = await _thirdPartyMovieServiceClient.GetMoviesAsync(cancellationToken);
         var mappedMovies = _mapper.Map<IEnumerable<Movie>>(movies);
 
-        await _movieService.AddMissingMoviesAsync(mappedMovies);
+        await _movieService.AddMissingMoviesAsync(mappedMovies, cancellationToken);
         return mappedMovies;
     }
 }
 
-public record GetThirdPartyMoviesQuery : IRequest<IEnumerable<Movie>>;
+public record GetThirdPartyMoviesCommand : IRequest<IEnumerable<Movie>>;

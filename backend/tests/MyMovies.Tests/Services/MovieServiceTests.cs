@@ -29,11 +29,11 @@ public class MovieServiceTests
             new Movie { Id = 2, Title = "Test Movie 2", Director = "Test Director 2", Year = 2023 }
         };
 
-        _mockMoviesRepository.Setup(r => r.GetMoviesAsync()).ReturnsAsync(new List<Movie>());
+        _mockMoviesRepository.Setup(r => r.GetMoviesAsync(CancellationToken.None)).ReturnsAsync(new List<Movie>());
 
-        await _service.AddMissingMoviesAsync(movies);
+        await _service.AddMissingMoviesAsync(movies,CancellationToken.None);
 
-        _mockMoviesRepository.Verify(r => r.AddMovieAsync(It.IsAny<Movie>()), Times.Exactly(movies.Count));
+        _mockMoviesRepository.Verify(r => r.AddMovieAsync(It.IsAny<Movie>(),CancellationToken.None), Times.Exactly(movies.Count));
     }
 
     [Fact]
@@ -45,10 +45,10 @@ public class MovieServiceTests
             new Movie { Id = 2, Title = "Test Movie 2", Director = "Test Director 2", Year = 2023 }
         };
 
-        _mockMoviesRepository.Setup(r => r.GetMoviesAsync()).ReturnsAsync(movies);
+        _mockMoviesRepository.Setup(r => r.GetMoviesAsync(CancellationToken.None)).ReturnsAsync(movies);
 
-        await _service.AddMissingMoviesAsync(movies);
+        await _service.AddMissingMoviesAsync(movies,CancellationToken.None);
 
-        _mockMoviesRepository.Verify(r => r.AddMovieAsync(It.IsAny<Movie>()), Times.Never);
+        _mockMoviesRepository.Verify(r => r.AddMovieAsync(It.IsAny<Movie>(), CancellationToken.None), Times.Never);
     }
 }

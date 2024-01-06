@@ -70,7 +70,7 @@ export default {
     }
   },
   created() {
-    this.v$.$autoDirty = true;  // Enable automatic dirty state
+    this.v$.$autoDirty = true;
   }
 }
 </script>
