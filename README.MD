@@ -18,6 +18,15 @@ Before you begin, ensure you have the following installed on your machine:
    ```bash
    git clone https://github.com/solowiejmaciej/MyMovies.git
    ```
+  
+* **Navigate to the project directory**
+
+   Use the following command to navigate to the project directory:
+
+   ```bash
+   cd MyMovies
+   ```
+  
 * **Run the application**
 
    Use the following command to run the application:
