@@ -1,9 +1,13 @@
+#region
+
 using AutoMapper;
 using FluentValidation;
 using MediatR;
 using MyMovies.Dtos;
 using MyMovies.Entities;
 using MyMovies.Interfaces;
+
+#endregion
 
 namespace MyMovies.Handlers;
 
@@ -15,11 +19,12 @@ public class AddMovieCommandHandler : IRequestHandler<AddMovieCommand, MovieDto>
     public AddMovieCommandHandler(
         IMoviesRepository moviesRepository,
         IMapper mapper
-        )
+    )
     {
         _mapper = mapper;
         _moviesRepository = moviesRepository;
     }
+
     public async Task<MovieDto> Handle(AddMovieCommand request, CancellationToken cancellationToken)
     {
         var movie = _mapper.Map<Movie>(request);

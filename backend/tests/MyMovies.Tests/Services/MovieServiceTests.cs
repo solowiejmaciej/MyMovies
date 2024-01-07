@@ -1,11 +1,14 @@
-using Xunit;
-using Moq;
-using MyMovies.Services;
-using MyMovies.Interfaces;
-using MyMovies.Entities;
-using System.Collections.Generic;
-using System.Linq;
+#region
+
 using Microsoft.Extensions.Logging;
+using Moq;
+using MyMovies.Entities;
+using MyMovies.Interfaces;
+using MyMovies.Services;
+
+#endregion
+
+namespace MyMovies.Tests.Services;
 
 public class MovieServiceTests
 {
@@ -23,31 +26,32 @@ public class MovieServiceTests
     [Fact]
     public async Task AddMissingMoviesAsync_ShouldAddMissingMovies()
     {
-        var movies = new List<Movie> 
-        { 
-            new Movie { Id = 1, Title = "Test Movie", Director = "Test Director", Year = 2022 },
-            new Movie { Id = 2, Title = "Test Movie 2", Director = "Test Director 2", Year = 2023 }
+        var movies = new List<Movie>
+        {
+            new() { Id = 1, Title = "Test Movie", Director = "Test Director", Year = 2022 },
+            new() { Id = 2, Title = "Test Movie 2", Director = "Test Director 2", Year = 2023 }
         };
 
         _mockMoviesRepository.Setup(r => r.GetMoviesAsync(CancellationToken.None)).ReturnsAsync(new List<Movie>());
 
-        await _service.AddMissingMoviesAsync(movies,CancellationToken.None);
+        await _service.AddMissingMoviesAsync(movies, CancellationToken.None);
 
-        _mockMoviesRepository.Verify(r => r.AddMovieAsync(It.IsAny<Movie>(),CancellationToken.None), Times.Exactly(movies.Count));
+        _mockMoviesRepository.Verify(r => r.AddMovieAsync(It.IsAny<Movie>(), CancellationToken.None),
+            Times.Exactly(movies.Count));
     }
 
     [Fact]
     public async Task AddMissingMoviesAsync_ShouldNotAddExistingMovies()
     {
-        var movies = new List<Movie> 
-        { 
-            new Movie { Id = 1, Title = "Test Movie", Director = "Test Director", Year = 2022 },
-            new Movie { Id = 2, Title = "Test Movie 2", Director = "Test Director 2", Year = 2023 }
+        var movies = new List<Movie>
+        {
+            new() { Id = 1, Title = "Test Movie", Director = "Test Director", Year = 2022 },
+            new() { Id = 2, Title = "Test Movie 2", Director = "Test Director 2", Year = 2023 }
         };
 
         _mockMoviesRepository.Setup(r => r.GetMoviesAsync(CancellationToken.None)).ReturnsAsync(movies);
 
-        await _service.AddMissingMoviesAsync(movies,CancellationToken.None);
+        await _service.AddMissingMoviesAsync(movies, CancellationToken.None);
 
         _mockMoviesRepository.Verify(r => r.AddMovieAsync(It.IsAny<Movie>(), CancellationToken.None), Times.Never);
     }

@@ -1,9 +1,15 @@
-using Moq;
+#region
+
 using AutoMapper;
+using Moq;
+using MyMovies.Dtos;
+using MyMovies.Entities;
 using MyMovies.Handlers;
 using MyMovies.Interfaces;
-using MyMovies.Entities;
-using MyMovies.Dtos;
+
+#endregion
+
+namespace MyMovies.Tests.Handlers;
 
 public class GetMoviesQueryHandlerTests
 {
@@ -22,8 +28,8 @@ public class GetMoviesQueryHandlerTests
     public async Task Handle_ShouldReturnMovies_WhenMoviesExist()
     {
         var query = new GetMoviesQuery();
-        var movies = new List<Movie> { new Movie { Id = 1, Title = "Test Movie", Year = 2022 } };
-        var moviesDto = new List<MovieDto> { new MovieDto { Id = 1, Title = "Test Movie", Year = 2022 } };
+        var movies = new List<Movie> { new() { Id = 1, Title = "Test Movie", Year = 2022 } };
+        var moviesDto = new List<MovieDto> { new() { Id = 1, Title = "Test Movie", Year = 2022 } };
 
         _mockMoviesRepository.Setup(r => r.GetMoviesAsync(CancellationToken.None)).ReturnsAsync(movies);
         _mockMapper.Setup(m => m.Map<IEnumerable<MovieDto>>(movies)).Returns(moviesDto);

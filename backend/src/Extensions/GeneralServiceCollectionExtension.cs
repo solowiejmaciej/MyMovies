@@ -27,12 +27,11 @@ public static class GeneralServiceCollectionExtension
         using (var scope = services.BuildServiceProvider().CreateScope())
         {
             var context = scope.ServiceProvider.GetRequiredService<MoviesDbContext>();
-            
+
             context.Database.Migrate();
         }
-        
+
         services.AddScoped<IMoviesRepository, MoviesRepository>();
         services.AddScoped<ErrorHandlingMiddleware>();
-
     }
 }

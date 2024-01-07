@@ -1,9 +1,13 @@
+#region
+
 using AutoMapper;
 using Moq;
 using MyMovies.Dtos;
 using MyMovies.Entities;
 using MyMovies.Handlers;
 using MyMovies.Interfaces;
+
+#endregion
 
 namespace MyMovies.Tests.Handlers;
 
@@ -38,5 +42,4 @@ public class AddMovieCommandHandlerTests
         _mockMoviesRepository.Verify(r => r.AddMovieAsync(movie, CancellationToken.None), Times.Once);
         Assert.Equal(movieDto, result);
     }
-    
 }

@@ -15,7 +15,7 @@ public class MovieMappingProfile : Profile
     {
         CreateMap<Movie, AddMovieCommand>();
         CreateMap<AddMovieCommand, Movie>();
-        
+
         CreateMap<Movie, MovieDto>();
         CreateMap<MovieDto, Movie>();
     }

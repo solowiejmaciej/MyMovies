@@ -1,11 +1,13 @@
+#region
+
 using AutoMapper;
 using FluentValidation;
 using MediatR;
 using MyMovies.Dtos;
-using MyMovies.Entities;
 using MyMovies.Exceptions;
 using MyMovies.Interfaces;
-using MyMovies.Models.RequestsBody;
+
+#endregion
 
 namespace MyMovies.Handlers;
 
@@ -17,18 +19,16 @@ public class UpdateMovieCommandHandler : IRequestHandler<UpdateMovieCommand, Mov
     public UpdateMovieCommandHandler(
         IMoviesRepository moviesRepository,
         IMapper mapper
-        )
+    )
     {
         _moviesRepository = moviesRepository;
         _mapper = mapper;
     }
+
     public async Task<MovieDto> Handle(UpdateMovieCommand request, CancellationToken cancellationToken)
     {
         var movie = await _moviesRepository.GetMovieByIdAsync(request.Id, cancellationToken);
-        if (movie is null)
-        {
-            throw new MovieNotFoundException(request.Id);
-        }
+        if (movie is null) throw new MovieNotFoundException(request.Id);
         movie.Title = request.Title;
         movie.Director = request.Director;
         movie.Year = request.Year;

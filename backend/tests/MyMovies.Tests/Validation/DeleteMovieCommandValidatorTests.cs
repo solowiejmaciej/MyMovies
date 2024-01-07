@@ -1,10 +1,11 @@
+#region
+
+using FluentValidation.TestHelper;
 using MyMovies.Handlers;
 
-namespace MyMovies.Tests.Validation;
+#endregion
 
-using Xunit;
-using FluentValidation.TestHelper;
-using Handlers;
+namespace MyMovies.Tests.Validation;
 
 public class DeleteMovieCommandValidatorTests
 {

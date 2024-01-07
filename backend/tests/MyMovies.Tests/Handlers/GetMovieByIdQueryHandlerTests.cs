@@ -1,3 +1,5 @@
+#region
+
 using AutoMapper;
 using Moq;
 using MyMovies.Dtos;
@@ -5,6 +7,8 @@ using MyMovies.Entities;
 using MyMovies.Exceptions;
 using MyMovies.Handlers;
 using MyMovies.Interfaces;
+
+#endregion
 
 namespace MyMovies.Tests.Handlers;
 
@@ -28,7 +32,8 @@ public class GetMovieByIdQueryHandlerTests
         var movie = new Movie { Id = 1, Title = "Test Movie", Year = 2022 };
         var movieDto = new MovieDto { Id = 1, Title = "Test Movie", Year = 2022 };
 
-        _mockMoviesRepository.Setup(r => r.GetMovieByIdAsync(query.MovieId,CancellationToken.None)).ReturnsAsync(movie);
+        _mockMoviesRepository.Setup(r => r.GetMovieByIdAsync(query.MovieId, CancellationToken.None))
+            .ReturnsAsync(movie);
         _mockMapper.Setup(m => m.Map<MovieDto>(movie)).Returns(movieDto);
 
         var result = await _handler.Handle(query, CancellationToken.None);
@@ -41,7 +46,8 @@ public class GetMovieByIdQueryHandlerTests
     {
         var query = new GetMovieByIdQuery(1);
 
-        _mockMoviesRepository.Setup(r => r.GetMovieByIdAsync(query.MovieId, CancellationToken.None)).ReturnsAsync((Movie)null);
+        _mockMoviesRepository.Setup(r => r.GetMovieByIdAsync(query.MovieId, CancellationToken.None))
+            .ReturnsAsync((Movie)null);
 
         await Assert.ThrowsAsync<MovieNotFoundException>(() => _handler.Handle(query, CancellationToken.None));
     }

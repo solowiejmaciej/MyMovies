@@ -1,12 +1,16 @@
-using Xunit;
-using Moq;
-using System.Threading;
+#region
+
 using AutoMapper;
+using Moq;
+using MyMovies.Dtos;
+using MyMovies.Entities;
+using MyMovies.Exceptions;
 using MyMovies.Handlers;
 using MyMovies.Interfaces;
-using MyMovies.Entities;
-using MyMovies.Dtos;
-using MyMovies.Exceptions;
+
+#endregion
+
+namespace MyMovies.Tests.Handlers;
 
 public class UpdateMovieCommandHandlerTests
 {
@@ -30,8 +34,10 @@ public class UpdateMovieCommandHandlerTests
         var updatedMovie = new Movie { Id = 1, Title = "Updated Movie", Year = 2022 };
         var updatedMovieDto = new MovieDto { Id = 1, Title = "Updated Movie", Year = 2022 };
 
-        _mockMoviesRepository.Setup(r => r.GetMovieByIdAsync(command.Id,CancellationToken.None)).ReturnsAsync(movie);
-        _mockMoviesRepository.Setup(r => r.UpdateMovieAsync(It.Is<Movie>(m => m.Title == command.Title && m.Year == command.Year),CancellationToken.None)).ReturnsAsync(updatedMovie);
+        _mockMoviesRepository.Setup(r => r.GetMovieByIdAsync(command.Id, CancellationToken.None)).ReturnsAsync(movie);
+        _mockMoviesRepository
+            .Setup(r => r.UpdateMovieAsync(It.Is<Movie>(m => m.Title == command.Title && m.Year == command.Year),
+                CancellationToken.None)).ReturnsAsync(updatedMovie);
 
         var result = await _handler.Handle(command, CancellationToken.None);
 
@@ -44,7 +50,8 @@ public class UpdateMovieCommandHandlerTests
     {
         var command = new UpdateMovieCommand { Id = 1, Title = "Updated Movie", Year = 2022 };
 
-        _mockMoviesRepository.Setup(r => r.GetMovieByIdAsync(command.Id,CancellationToken.None)).ReturnsAsync((Movie)null);
+        _mockMoviesRepository.Setup(r => r.GetMovieByIdAsync(command.Id, CancellationToken.None))
+            .ReturnsAsync((Movie)null);
 
         await Assert.ThrowsAsync<MovieNotFoundException>(() => _handler.Handle(command, CancellationToken.None));
     }

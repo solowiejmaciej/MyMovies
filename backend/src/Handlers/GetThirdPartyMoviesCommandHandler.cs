@@ -1,7 +1,11 @@
+#region
+
 using AutoMapper;
 using MediatR;
 using MyMovies.Entities;
 using MyMovies.Interfaces;
+
+#endregion
 
 namespace MyMovies.Handlers;
 
@@ -15,13 +19,15 @@ public class GetThirdPartyMoviesCommandHandler : IRequestHandler<GetThirdPartyMo
         IThirdPartyMovieServiceClient thirdPartyMovieServiceClient,
         IMovieService movieService,
         IMapper mapper
-        )
+    )
     {
         _thirdPartyMovieServiceClient = thirdPartyMovieServiceClient;
         _movieService = movieService;
         _mapper = mapper;
     }
-    public async Task<IEnumerable<Movie>> Handle(GetThirdPartyMoviesCommand request, CancellationToken cancellationToken)
+
+    public async Task<IEnumerable<Movie>> Handle(GetThirdPartyMoviesCommand request,
+        CancellationToken cancellationToken)
     {
         var movies = await _thirdPartyMovieServiceClient.GetMoviesAsync(cancellationToken);
         var mappedMovies = _mapper.Map<IEnumerable<Movie>>(movies);

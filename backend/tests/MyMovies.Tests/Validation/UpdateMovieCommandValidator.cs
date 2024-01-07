@@ -1,6 +1,11 @@
-using Xunit;
+#region
+
 using FluentValidation.TestHelper;
 using MyMovies.Handlers;
+
+#endregion
+
+namespace MyMovies.Tests.Validation;
 
 public class UpdateMovieCommandValidatorTests
 {

@@ -4,7 +4,6 @@
 
 #region
 
-using FluentValidation;
 using MyMovies.Exceptions;
 
 #endregion
@@ -31,11 +30,11 @@ public class ErrorHandlingMiddleware : IMiddleware
         {
             context.Response.StatusCode = 404;
             await context.Response.WriteAsync(notFoundException.Message);
-        }        
+        }
         catch (Exception exception)
         {
             _logger.LogError(exception, exception.Message);
-            context.Response.StatusCode = 500; 
+            context.Response.StatusCode = 500;
         }
     }
 }

@@ -1,5 +1,9 @@
+#region
+
 using MyMovies.Extensions;
 using MyMovies.Middleware;
+
+#endregion
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,13 +15,13 @@ var corsOrigins = "_myAllowSpecificOrigins";
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: corsOrigins,
+    options.AddPolicy(corsOrigins,
         builder =>
         {
             builder.WithOrigins(
                     "http://localhost", "https://localhost", "http://localhost:5173", "https://localhost:5173",
-                    "http://localhost:3000", "https://localhost:3000","http://localhost:8081", "https://localhost:8081"
-                    )
+                    "http://localhost:3000", "https://localhost:3000", "http://localhost:8081", "https://localhost:8081"
+                )
                 .AllowAnyHeader()
                 .AllowAnyMethod();
         });

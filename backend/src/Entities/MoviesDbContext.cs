@@ -1,5 +1,8 @@
+#region
+
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
+
+#endregion
 
 namespace MyMovies.Entities;
 
@@ -10,5 +13,4 @@ public sealed class MoviesDbContext : DbContext
     }
 
     public DbSet<Movie?> Movies { get; set; }
-
 }

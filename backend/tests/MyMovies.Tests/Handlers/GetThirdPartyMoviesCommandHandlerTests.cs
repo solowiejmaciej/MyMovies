@@ -1,13 +1,16 @@
-using Xunit;
-using Moq;
-using System.Threading;
+#region
+
 using AutoMapper;
+using Moq;
+using MyMovies.Dtos;
+using MyMovies.Entities;
 using MyMovies.Handlers;
 using MyMovies.Interfaces;
-using MyMovies.Entities;
-using System.Collections.Generic;
-using MyMovies.Dtos;
 using MyMovies.MappingProfiles;
+
+#endregion
+
+namespace MyMovies.Tests.Handlers;
 
 public class GetThirdPartyMoviesCommandHandlerTests
 {
@@ -21,14 +24,15 @@ public class GetThirdPartyMoviesCommandHandlerTests
         _mockMovieService = new Mock<IMovieService>();
         var config = new MapperConfiguration(cfg => cfg.AddProfile<MovieMappingProfile>());
         var mapper = config.CreateMapper();
-        _handler = new GetThirdPartyMoviesCommandHandler(_mockThirdPartyMovieServiceClient.Object, _mockMovieService.Object, mapper);
+        _handler = new GetThirdPartyMoviesCommandHandler(_mockThirdPartyMovieServiceClient.Object,
+            _mockMovieService.Object, mapper);
     }
 
     [Fact]
     public async Task Handle_ShouldReturnMovies_WhenMoviesExist()
     {
         var query = new GetThirdPartyMoviesCommand();
-        var moviesDtos = new List<MovieDto> { new MovieDto { Id = 1, Title = "Test Movie", Year = 2022 } };
+        var moviesDtos = new List<MovieDto> { new() { Id = 1, Title = "Test Movie", Year = 2022 } };
 
         _mockThirdPartyMovieServiceClient.Setup(c => c.GetMoviesAsync(CancellationToken.None)).ReturnsAsync(moviesDtos);
 
@@ -48,7 +52,7 @@ public class GetThirdPartyMoviesCommandHandlerTests
 
         var result = await _handler.Handle(query, CancellationToken.None);
 
-        _mockMovieService.Verify(s => s.AddMissingMoviesAsync(movies,CancellationToken.None), Times.Once);
+        _mockMovieService.Verify(s => s.AddMissingMoviesAsync(movies, CancellationToken.None), Times.Once);
         Assert.Empty(result);
     }
 }
